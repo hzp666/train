@@ -1,0 +1,170 @@
+.step-container {
+    margin: 20px 0 40px;
+}
+.con {
+    width: 1190px;
+    margin: 0 auto;
+}
+.buy-step {
+    display: table;
+    line-height: 28px;
+}
+.buy-step .circle,  .buy-step .step .line {
+    background-color: #0e90d2;
+}
+.buy-step .step {
+    float: left;
+    width: 25%;
+    font-size: 16px;
+}
+.step .line {
+    width: 190px;
+    height: 6px;
+    margin-top: 11px;
+}
+.step {
+    color:#dcdcdc;
+}
+.current {
+    color: #0e90d2;
+}
+.buy-step .circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    margin-right: 6px;
+}
+.left-container {
+    width: 800px;
+    margin-right: 12px;
+}
+.right-container {
+    width: 378px;
+    background-color: #FFF;
+}
+.train-info {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    padding: 37px 0;
+    height: 104px;
+}
+.train-code{
+    margin: 0 61px;
+    width: 130px;
+    line-height: 104px;
+    font-size: 24px;
+}
+.train-info-section {
+    font-size: 17px;
+    color: #666;
+    display: inline-block;
+    width: 400px;
+    text-align: left;
+}
+.train-date-info{
+    width: 80px;
+    display: inline-block;
+    line-height: 24px;
+}
+.train-date-info-right {
+    margin-left: 170px;
+    text-align: right;
+}
+.train-time{
+    height: 56px;
+    line-height: 56px;
+}
+.train-time-center .line {
+    display: inline-block;
+    margin: 25px 15px 0 15px;
+    width: 30px;
+    height: 1px;
+    vertical-align: middle;
+    background: #d8d8d8;
+}
+.train-info-section div div{
+    display: inline;
+}
+.train-ls-station{
+    margin: 0 70px;
+}
+.train-time-info-right{
+    margin-left: 30px;
+}
+.train-time-info-left{
+    margin-right: 30px;
+}
+
+.train-end-station{
+    margin-left: 21px;
+}
+.box-container{
+    background: #fff;
+    margin-top: 20px;
+    width: 800px;
+}
+.select-box {
+    border: 1px solid #e5e5e5;
+}
+.select-title {
+    line-height: 50px;
+    font-size: 20px;
+    color: #222;
+    margin-left: 50px;
+    padding-left: 10px
+}
+.select-content ul li {
+    float: left;
+    width: 181px;
+    margin: 45px 10px 30px 55px;
+}
+.select-content{
+    background: #fff;
+}
+.seat {
+    text-align: center;
+    padding: 10px 0;
+    font-size: 17px;
+    width: 181px;
+    display: inline-block;
+    position: relative;
+    border: 1px solid #e5e5e5;
+    cursor: pointer;
+}
+.selected{
+    border: solid 2px #0e90d2;
+}
+input {
+    background-color: #FFF;
+    border: none;
+}
+.buy-price h4{
+    margin-left: 25px;
+    font-size: 20px;
+    color: #222;
+    line-height: 26px;
+    font-weight: 700;
+}
+.btn {
+    margin-left: 119px;
+    text-align: center;
+    border: solid #f90;
+    background-color: #f90;
+    width: 120px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    border-radius: 30px;
+    height: 35px;
+}
+.buy-price span{
+    margin-left: 15px;
+}
+.buy-price .dis-input{
+    margin-left: 100px;
+}
+.buy-price .di-in{
+    margin-left: 130px;
+}

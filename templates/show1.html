@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>火车票查询</title>
+    <link href="{{url_for('static',filename='css/12306.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{url_for('static',filename='css/kuCity.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{url_for('static',filename='css/show.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{url_for('static',filename='css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
+    <script src="{{url_for('static',filename='js/jquery.min.js')}}" type="application/javascript"></script>
+    <script src="{{url_for('static',filename='js/laydate/laydate.js')}}" type="application/javascript"></script>
+    <script src="{{url_for('static',filename='js/kuCity.js')}}" type="application/javascript"></script>
+</head>
+<body onload="start()">
+<!--   导航栏   -->
+<header class="header">
+    <img src="" alt="这是logo"/>
+    <input type="search" alt="这是搜索框" placeholder="这是搜索框"/>
+    <div class="person FR">
+        <a href="">登录</a>
+        <div class="Clear"></div>
+    </div>
+</header>
+
+<!--  正文  -->
+<div class="con">
+    <div class="containter">
+        <div class="search-box">
+            <div class="now-select FL">
+                <div class="info">
+                    <span id="from-span" class="FL" style="margin-top: 18px;"></span>
+                    <div class="FL" style="margin-top: 10px;">
+                        <img src="{{url_for('static',filename='img/to.png')}}" alt="到" style="width: 32px;"/>
+                    </div>
+                    <span class="FL" id="to-span" style="margin-top: 18px;"></span>
+                </div>
+                <div class="Clear"></div>
+                <div class="date-span">
+                    <span id="date-span"></span>
+                </div>
+                <div class="Clear"></div>
+            </div>
+            <div class="select-info FL">
+                <form action="/show" method="post" onsubmit="return checkInfo()">
+                    <div class="FL input input-from-city">
+                        <span class="input-span">出发城市<br/></span>
+                        <input class="input-info input-info-city" type="text"value="{{_from}}" name="from-city" id="from-city"/>
+                    </div>
+                    <div class="change-info FR">
+                        <div class="swap-box"><i class="change-icon" onclick="swapFromToCity()"></i></div>
+                    </div>
+                    <div class="FL input input-to-city">
+                        <span class="input-span">到达城市<br/></span>
+                        <input class="input-info input-info-city" type="text" value="{{_to}}" name="to-city" id="to-city"/>
+                    </div>
+                    <div class="FL input input-date">
+                        <span class="input-span">出发日期<br/></span>
+                        <input class="input-info" type="text" value="{{_d}}" name="date" id="date"/>
+                        <script type="application/javascript">
+                            laydate.render({
+                                elem: '#date'
+                                , event: 'click'
+                                , theme: '#0e90d2'
+                                ,min: 0
+                                ,max: 60
+                            });
+                        </script>
+                    </div>
+                    <div class="FL input input-submit">
+                        <input type="submit" class="btn" value="搜索"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="select-box">
+                <div class="FL week-day">
+                    <div class="item selected" style="border-top-left-radius: 4px;">
+                        <span class="date"></span><br/>
+                        <span class="week"></span>
+                    </div>
+                    <div class="item" onclick="changeDate(this)">
+                        <span class="date"></span><br/>
+                        <span class="week"></span>
+                    </div>
+                    <div class="item" onclick="changeDate(this)">
+                        <span class="date"></span><br/>
+                        <span class="week"></span>
+                    </div>
+                    <div class="item" onclick="changeDate(this)">
+                        <span class="date"></span><br/>
+                        <span class="week"></span>
+                    </div>
+                    <div class="item" onclick="changeDate(this)">
+                        <span class="date"></span><br/>
+                        <span class="week"></span>
+                    </div>
+                    <div class="item" onclick="changeDate(this)">
+                        <span class="date"></span><br/>
+                        <span class="week"></span>
+                    </div>
+                    <div class="item" onclick="changeDate(this)">
+                        <span class="date"></span><br/>
+                        <span class="week"></span>
+                    </div>
+                </div>
+                <div class="FL calendar">
+                    <img src="{{url_for('static',filename='img/calendar.png')}}" alt="选择日期" style="width: 67px;" id="select-date"/>
+                    <script>
+                        laydate.render({
+                            elem: '#select-date'
+                            ,min: 0
+                            ,max: 60
+                            ,eventElem: '#select-date'
+                            ,trigger: 'click'
+                        });
+                    </script>
+                </div>
+            <div class="Clear"></div>
+        </div>
+        <div class="info-box">
+            <table class="table-bordered table-hover table-responsive table-striped">
+                <thead>
+                <tr class="th" id="float">
+                    <th width="100" colspan="1" rowspan="1">车次</th>
+                    <th width="100" colspan="1" rowspan="1">
+                        出发站
+                        <br class="Clear">
+                        到达站
+                    </th>
+                    <th width="100" colspan="1" rowspan="1" id="startendtime">
+                        <span class="b1" id="s_time" style="cursor: pointer;">出发时间</span><br>
+                        <span class="b2" id="r_time" style="cursor: pointer;">到达时间</span>
+                    </th>
+                    <th width="100" colspan="1" rowspan="1">
+                        <span class="b3" id="l_s" style="cursor: pointer;">历时</span>
+                    </th>
+                    <th width="60" colspan="1" rowspan="1">
+                        商务座<br clear="none">
+                        特等座
+                    </th>
+                    <th width="60" colspan="1" rowspan="1">一等座</th>
+                    <th width="60" colspan="1" rowspan="1">二等座</th>
+                    <th width="60" colspan="1" rowspan="1">
+                        高级<br clear="none">
+                        软卧
+                    </th>
+                    <th width="60" colspan="1" rowspan="1">软卧</th>
+                    <th width="60" colspan="1" rowspan="1">动卧</th>
+                    <th width="60" colspan="1" rowspan="1">硬卧</th>
+                    <th width="60" colspan="1" rowspan="1">软座</th>
+                    <th width="60" colspan="1" rowspan="1">硬座</th>
+                    <th width="60" colspan="1" rowspan="1">无座</th>
+                    <th width="60" colspan="1" rowspan="1">其他</th>
+                    <th class="last" colspan="1" rowspan="1">备注</th>
+                </tr>
+                </thead>
+                <tbody id="queryLeftTable">
+                {% for ticket_info in tickets_info %}
+                <tr>
+
+                        <td colspan="4" width="370">
+                            <div class="ticket-info">
+                                <div class="FL train">
+                                    <div>
+                                        <a title="点击查看停靠站信息">{{ticket_info.no}}</a>
+                                    </div>
+                                    <span style="display: none" id="secretStr" name="secretStr">{{ticket_info.secretStr}}</span>
+                                </div>
+                                <div class="FL start-end-station">
+                                    <strong><i style="color: #fc8302;font-size: 3px;margin-right: 7px;">始</i>{{ticket_info._from}}<br/></strong>
+                                    <strong><i style="color: #fc8302;font-size: 3px;margin-right: 7px;">终</i>{{ticket_info._to}}</strong>
+                                </div>
+                                <div class="FL start-end-time">
+                                    <strong class="start-t">{{ticket_info.start_time}}<br/></strong>
+                                    <strong class="color999">{{ticket_info.arrive_time}}</strong>
+                                </div>
+                                <div class="FL train-runtime">
+                                    <strong>{{ticket_info.len}}</strong>
+                                </div>
+                            </div>
+                        </td>
+                        <td width="60" align="center" style="cursor: pointer;">
+                            {{ticket_info.t_perice}}<br/>
+                        </td>
+                        <td width="60" align="center" style="cursor: pointer;">
+                            {{ticket_info.y_perice}}<br/>
+                        </td>
+                        <td width="60" align="center" style="cursor: pointer;">
+                            {{ticket_info.e_perice}}<br/>
+                        </td>
+                        <td width="60" align="center" style="cursor: pointer;">
+                            {{ticket_info.g_perice}}<br/>
+                        </td>
+                        <td width="60" align="center" style="cursor: pointer;">
+                            {{ticket_info.r_perice}}<br/>
+                        </td>
+                        <td width="60" align="center" style="cursor: pointer;">
+                           {{ticket_info.d_perice}} <br/>
+                        </td>
+                        <td width="60" align="center" style="cursor: pointer;">
+                            {{ticket_info.yw_perice}}<br/>
+                        </td>
+                        <td width="60" align="center" style="cursor: pointer;">
+                            {{ticket_info.rz_perice}}<br/>
+                        </td>
+                        <td width="60" align="center" style="cursor: pointer;">
+                            {{ticket_info.yz_perice}}<br/>
+                        </td>
+                        <td width="60" align="center" style="cursor: pointer;">
+                           {{ticket_info.wz_perice}} <br/>
+                        </td>
+                        <td width="60" align="center" style="cursor: pointer;">
+                           {{ticket_info.other_perice}} <br/>
+                        </td>
+                        <td align="center" width="80">
+                            <a href="javascript:" class="btn72" onclick="buyTicket(this)">购买/抢票</a>
+                        </td>
+
+                </tr> {% endfor%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--  页脚  -->
+<footer class="footer FL center">
+    这是页脚
+</footer>
+
+<script type="application/javascript">
+    function start() {
+        var date = document.getElementById("date").value;
+        var fromCity = document.getElementById("from-city").value;
+        var toCity = document.getElementById("to-city").value;
+        document.getElementById("date-span").innerText = date;
+        document.getElementById("from-span").innerText = fromCity;
+        document.getElementById("to-span").innerText = toCity;
+        dateShow(date);
+    }
+    function getMyDay(date){
+        date = new Date(date);
+        var week;
+        if(date.getDay()==0) week="周日";
+        if(date.getDay()==1) week="周一";
+        if(date.getDay()==2) week="周二";
+        if(date.getDay()==3) week="周三";
+        if(date.getDay()==4) week="周四";
+        if(date.getDay()==5) week="周五";
+        if(date.getDay()==6) week="周六";
+        return week;
+    }
+    function fun_submit(date,i){
+        var date1 = new Date(date);
+        var date2 = new Date(date1);
+        date2.setDate(date1.getDate()+i);
+        var times = date2.getFullYear()+"-"+(date2.getMonth()+1)+"-"+date2.getDate();
+        return times;
+    }
+    function dateShow(date) {
+        var weekInfo = document.getElementsByClassName("week");
+        var dateInfo = document.getElementsByClassName("date");
+        for(var i=0; i<dateInfo.length; i++) {
+            var datet = fun_submit(date, i);
+            var week = getMyDay(datet);
+            //datet = datet.substring(5, datet.length);
+            dateInfo[i].innerText=datet;
+            if( i == 0 ) weekInfo[i].innerText="今天";
+            else if( i == 1 ) weekInfo[i].innerText="明天";
+            else if( i == 2 )weekInfo[i].innerText="后天";
+            else weekInfo[i].innerText=week;
+        }
+    }
+</script>
+
+<script type="application/javascript">
+    function createXmlHttp(){
+        var xmlHttp;
+        try{ // Firefox, Opera 8.0+, Safari
+            xmlHttp=new XMLHttpRequest();
+        } catch (e){
+            try {// Internet Explorer
+                xmlHttp=new ActiveXObject("Msxml2.XMLHTTP");
+            }  catch (e){
+                try{
+                    xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+                } catch (e){}
+            }
+        }
+        return xmlHttp;
+    }
+    //换日期请求
+    function changeDate(date){
+        var r = date.firstElementChild.innerText;
+        var fCity = document.getElementById("from-span").innerText;
+        var tCity = document.getElementById("to-span").innerText;
+        <!--var json = {-->
+            <!--"_from":fCity,-->
+            <!--"_to":tCity,-->
+            <!--"_d":r-->
+        <!--};-->
+         var data= {
+                data: JSON.stringify({
+                    "_from":fCity,
+                    "_to":tCity,
+                    "_d":r
+                }),
+            }
+        $.ajax({
+                url:'/cdate',
+                type:'POST',
+                data:data,
+                dataType: 'json',
+                 success:function(res){
+                    console.log(res)
+                    console.log(0)
+
+                },
+                <!--error:function (res) {-->
+                    <!--console.log(res);-->
+                    <!--console.log(1)-->
+                <!--}-->
+               })
+        <!--xhr.send("_from="+fCity+"&_to="+tCity+"&_d="+r);-->
+    }
+    //抢票请求
+    function buyTicket(obj){
+        var tr = $(obj).parent().parent();
+        var td0 = $(tr.children()).get(0);
+        var codeList = $($(td0).children()).get(0);
+        var code = $($($($(codeList).children()).get(0)).children()).get(0).innerText;
+        var secretStr = $($($($(codeList).children()).get(0)).children()).get(1).innerText;
+        var startStation = $($($($(codeList).children()).get(1)).children()).get(0).innerText;
+        startStation = startStation.substring(1, startStation.length);
+        var endStation = $($($($(codeList).children()).get(1)).children()).get(1).innerText.substring(1, startStation.length);
+        var xhr = createXmlHttp();
+        var josn = {
+            "secretStr":secretStr,
+            "traincode":code,
+            "startStation":startStation,
+            "endStation":endStation
+        };
+        xhr.open("GET",url,true);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.send(JSON.stringify(json));
+    }
+</script>
+
+<!-- 城市选择以及提交检测  -->
+<script type="application/javascript">
+    $(".input-info-city").kuCity();
+
+    function OK() {
+        var from = document.getElementById("from-city").value;
+        var to = document.getElementById("to-city").value;
+        var da = document.getElementById("date").value;
+        if (from == "" || to == "") return 3;
+        else if (from == to) return 2;
+        else {
+            if (da == "") return 4;
+            return 1;
+        }
+    }
+
+    function checkInfo() {
+        if (OK() == 1) return true;
+        else {
+            if (OK() == 2) alert("出发城市和到达城市不能相同！");
+            if (OK() == 3) alert("请输入出发城市或者到达城市！");
+            if (OK() == 4) alert("请选择正确日期！");
+            return false;
+        }
+    }
+</script>
+
+</body>
+</html>

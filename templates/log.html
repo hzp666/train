@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link href="{{url_for('static',filename='css/12306.css')}}" rel="stylesheet">
+    <link href="{{url_for('static',filename='css/log.css')}}" rel="stylesheet">
+    <script src="{{url_for('static',filename='js/jquery.min.js')}}"   type="application/javascript"></script>
+    <title>登录界面</title>
+</head>
+<body>
+<!-- 标题 -->
+<header class="header">
+    <div class="logo">
+        <a href="index.html">
+
+        </a>
+    </div>
+</header>
+
+<!--  正文  -->
+<div class="cont">
+    <div style="text-align:center;padding-bottom:10px"></div>
+    <div class="cont-text">
+        <div class="cont-left FL"><img src="{{url_for('static',filename='img/logo2.jpg')}}" alt="欢迎登录" style="width: 480px;height: 370px;"/></div>
+        <div class="cont-right FL">
+            {% if message %}
+                <p style="color:red;text-align:center">{{ message }}</p>
+            {% endif %}
+            <form action="/signin" method="post" class="log-form" onsubmit="return checkInfo()">
+                <div style="margin-top: 15px;">
+                    <span>账号登录</span>
+                </div>
+                <div class="FL form-field input input-username">
+                    <i></i>
+                    <input type="text" class="input-box info-name" id="name" name="user_name" placeholder="12306账号"/>
+                </div>
+                <div class="FL form-field input input-pwd">
+                    <i></i>
+                    <input type="password" class="input-box info-pwd" id="pwd" name="user_password" placeholder="密码"/>
+                </div>
+                <div class="FL form-field">
+                    <input type="checkbox" value="1" name="auto_login" id="check" class="check-box">
+                    <label class="normal" for="check">7天内自动登录</label>
+                </div>
+                <div class="Clear FL form-field submit">
+                    <input type="submit" class="input-btn" value="登录"/>
+                </div>
+                <p class="Clear FL form-field tip">提示：登录需要12306账号，<br/>如果您还没有12306账号请去
+                    <a href="">注册账号</a>
+                </p>
+            </form>
+        </div>
+        <div class="Clear"></div>
+    </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+    <div class="center">
+        <span>欢迎访问<a href="index.html">12306抢票网</a></span>
+    </div>
+</footer>
+
+<script type="application/javascript">
+    function check() {
+        var name = document.getElementById("name").value;
+        var pwd = document.getElementById("pwd").value;
+        if( name!="" && pwd!="" ) return true;
+        return false;
+    };
+    function checkInfo() {
+        if( check()  ) return true;
+        alert("请输入完整的登录信息！！！");
+        return false;
+    }
+
+</script>
+
+</body>
+</html>

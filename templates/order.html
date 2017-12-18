@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>确认订单</title>
+    <link href="{{url_for('static',filename='css/12306.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{url_for('static',filename='css/order.css')}}" rel="stylesheet" type="text/css"/>
+    <script src="{{url_for('static',filename='js/jquery.min.js')}}" type="application/javascript"></script>
+</head>
+<body>
+
+<!--   导航栏   -->
+<header class="header">
+    <img src="" alt="这是logo"/>
+    <input type="search" alt="这是搜索框" placeholder="这是搜索框"/>
+</header>
+
+<!--  正文  -->
+<div class="con">
+    <section class="buy-container">
+        <section>
+            <div class="step-container">
+                <article step="选择车次,填写订单,支付票款,出票成功" class="buy-step">
+                    <div class="step">
+                        <div class="FL line"></div>
+                        <div class="FL circle">1</div>
+                        <span>选择车次</span></div>
+                    <div class="step current">
+                        <div class="FL line"></div>
+                        <div class="FL circle">2</div>
+                        <span>填写订单</span></div>
+                    <div class="step">
+                        <div class="FL line"></div>
+                        <div class="FL circle">3</div>
+                        <span>支付票款</span></div>
+                    <div class="step">
+                        <div class="FL line"></div>
+                        <div class="FL circle">4</div>
+                        <span>出票成功</span></div>
+                </article>
+            </div>
+            <div class="FL left-container">
+                <section class="train-info">
+                    <div class="FL train-code">{{train_info._code}}次</div>
+                    <div class="FL train-info-detail">
+                        <section class="train-info-section">
+                            <div>
+                                <div class="FL train-date">
+                                    <div class="train-date-info">{{train_info.start_date}}</div>
+                                    <div class="train-date-info train-date-info-right">{{train_info.end_date}}</div>
+                                </div>
+                                <div class="FL train-time">
+                                    <div class="FL train-time-info train-time-info-left">{{train_info.start_time}}</div>
+                                    <div class="train-time-center">
+                                        <div class="FL line"></div>
+                                        <div class="FL train-icon">
+                                            <img src="{{url_for('static',filename='img/font-564.png')}}" alt="" style="width:45px;"/>
+                                        </div>
+                                        <div class="FL line"></div>
+                                    </div>
+                                    <div class="train-time-info train-time-info-right">{{train_info.end_time}}</div>
+                                </div>
+                                <div class="FL train-station">
+                                    <div class="train-start-station">{{train_info.start_station}}</div>
+                                    <div class="train-ls-station">{{train_info.ls}}</div>
+                                    <div class="train-end-station">{{train_info.end_station}}</div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+                <section class="FL box-container">
+                    <div class="select-box">
+                        <div class="select-title">选择坐席</div>
+                        <div class="select-content">
+                            <ul>
+                                {% for seat_info in seats_info %}
+                                    <li class="select-seat" onclick="select(this)">
+                                        <div class="seat">
+                                            <div class="seat-info">{{seat_info.seattype}}<span style="color: #f90;">￥{{seat_info.price}}</span></div>
+                                            <div class="seat-num">{{seat_info.have_ticket}}</div>
+                                        </div>
+                                    </li>
+                               {% endfor%}
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="FL right-container">
+                <form action="/confirm_book" method="post" onsubmit="return check()">
+                    <div class="buy-price">
+                        <h4>票价信息</h4>
+                        <span>座次</span><input type="text"  class="di-in" name="seat" id="seat"/>
+                        <br/>
+                        <span>订单金额</span><input type="text"  class="dis-input" name="price" id="price"/>
+                        <br/>
+                        <input type="text" style="display: none;" id="ticket_num" name="ticket_num"/>
+                        <input type="submit" value="提交订单" class="btn"/>
+                    </div>
+                </form>
+            </div>
+            </section>
+    </section>
+</div>
+
+<!--  页脚  -->
+<footer class="Clear footer center">
+    这是页脚
+</footer>
+
+<script>
+    function select(date){
+        $(date).siblings('li').removeClass('selected');  // 删除其他兄弟元素的样式
+        $(date).addClass('selected');
+        var seat_info = date.firstElementChild.firstElementChild.innerText;
+        var st = seat_info.split("￥");
+        var seat = st[0], price = st[1];
+        var seat_num = date.firstElementChild.lastElementChild.innerText;
+
+        $("#seat").val(seat);
+        $("#price").val("￥"+price);
+        $("#ticket_num").val(seat_num);
+    }
+    function checkInfo(){
+        var te = $("seat").val();
+        if( te == '' ) return false;
+        return true;
+    }
+    function check(){
+        if( !checkInfo() ) {
+            alert("请选择座次!!!");
+            return false;
+        }
+        return true;
+    }
+</script>
+
+</body>
+</html>

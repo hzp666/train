@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>12306抢票</title>
+    <link href="{{url_for('static',filename='css/12306.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{url_for('static',filename='css/index.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{url_for('static',filename='css/kuCity.css')}}" rel="stylesheet" type="text/css"/>
+    <script src="{{url_for('static',filename='js/jquery.min.js')}}" type="application/javascript"></script>
+    <script src="{{url_for('static',filename='js/kuCity.js')}}" type="application/javascript"></script>
+    <script src="{{url_for('static',filename='js/index.js')}}" type="application/javascript"></script>
+    <script src="{{url_for('static',filename='js/laydate/laydate.js')}}" type="application/javascript"></script>
+    <style>
+    body {
+        background-color: rgba(248,248,248,1);
+        cursor: pointer;
+        background-image:url({{url_for('static',filename='img/bg2.jpg')}})
+    }
+    </style>
+</head>
+
+<!--   导航栏   -->
+<header class="header">
+    <img src="" alt="这是logo"/>
+    <input type="search" alt="这是搜索框" placeholder="这是搜索框"/>
+    <div class="person FR">
+        {% if session.username  %}
+        <span>{{session.username}}</span><a href="logout">&nbsp;&nbsp;logout</a>
+        {% else %}<a href="/signin">账号登录</a>
+        {% endif%}
+        <span>&nbsp;&nbsp;&nbsp;</span>
+        <div class="Clear"></div>
+    </div>
+</header>
+
+<!-- 正文 -->
+<div class="con">
+    <div class="con-search">
+        <div class="con-left FL">
+            <h3 class="select-logo">
+                <i class="FL" style="height: 50px;"><img src="{{url_for('static',filename='img/font-564.png')}}" alt="选择车次信息" class="img-icon"/></i>
+                <span style="margin-left: 10px;">请选择您的抢票信息</span>
+            </h3>
+            <div class="select-info FL">
+                <form action="/show" method="post" onsubmit="return checkInfo()">
+                    <div class="FL input input-from-city">
+                        <span class="input-span">出发城市</span>
+                        <input class="input-info input-info-city" type="text" placeholder="这是选择出发城市" name="_from" id="from-city"/>
+                    </div>
+                    <div class="change-info FR">
+                        <div class="swap-box"><i class="change-icon" onclick="swapFromToCity()"></i></div>
+                    </div>
+                    <div class="FL input input-to-city">
+                        <span class="input-span">到达城市</span>
+                        <input class="input-info input-info-city" type="text" placeholder="这是选择到达城市" name="_to" id="to-city"/>
+                    </div>
+                    <div class="FL input input-date">
+                        <span class="input-span">出发日期</span>
+                        <input class="input-info" type="text" placeholder="请选择日期" name="_d" id="date"/>
+                        <script type="application/javascript">
+                            var nowDate = new Date();
+                            var Y = nowDate.getFullYear();
+                            var M = nowDate.getMonth()+1;
+                            var D = nowDate.getDate();
+                            nowDate = Y+"-"+M+"-"+D;
+                            laydate.render({
+                                elem: '#date'
+                                ,event: 'click'
+                                ,theme: '#0e90d2'
+                                ,min: nowDate
+                                ,max: '2080-10-14'
+                            });
+                        </script>
+                    </div>
+                    <div class="FL input input-sumbit">
+                        <input type="submit" class="btn" value="搜索"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="con-right FL"></div>
+        <div class="Clear"></div>
+    </div>
+</div>
+
+<!--  页脚  -->
+<footer class="footer FL center">
+    这是页脚
+</footer>
+
+<!-- 城市选择以及提交检测  -->
+<script type="application/javascript">
+    $(".input-info-city").kuCity();
+
+    function OK(){
+        var from = document.getElementById("from-city").value;
+        var to = document.getElementById("to-city").value;
+        var da = document.getElementById("date").value;
+        if( from=="" || to=="" ) return 3;
+        else if( from == to ) return 2;
+        else {
+            if( da=="" ) return 4;
+            return 1;
+        }
+    }
+
+    function checkInfo() {
+        if( OK() == 1 ) return true;
+        else {
+            if( OK() == 2 ) alert("出发城市和到达城市不能相同！");
+            if( OK() == 3 ) alert("请输入出发城市或者到达城市！");
+            if( OK() == 4 ) alert("请选择正确日期！");
+            return false;
+        }
+    }
+</script>
+</body>
+</html>

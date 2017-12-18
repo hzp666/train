@@ -1,0 +1,90 @@
+.header {
+    position: relative;
+    width: 980px;
+    height: auto;
+    margin: 40px auto 30px;
+}
+.cont-text{
+    margin: 0 auto 70px;
+    width: 980px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+.form-field{
+    padding: 11px 0px 11px 5px;
+}
+.cont-left {
+    width: 480px;
+    height: 370px;
+    margin: 0 115px 0 0;
+}
+.cont-right {
+    width: 39%;
+    background-color: #f6f6f6;
+}
+.log-form {
+    margin: 0px 46px 110px;
+}
+.input {
+    background-color: white;
+    margin: 14px 0px;
+    font-size: 14px;
+    height: 24px;
+    border: 1px solid #aaa;
+    line-height: 24px;
+    vertical-align: top;
+}
+.input-box {
+    width: 250px;
+    height: 29px;
+    font-size: 20px;
+    border: 0;
+}
+.input-box:focus {
+    outline: 0;
+}
+.cont-right .input-username i {
+    float: left;
+    background: url(../img/icon.png) no-repeat 0 0;
+    width: 11px;
+    height: 11px;
+    margin: 9px 10px 0;
+}
+.cont-right .input-username i {
+    background-position: -129px -90px;
+}
+.cont-right .input-pwd i {
+    float: left;
+    background: url(../img/icon.png) no-repeat 0 0;
+    width: 11px;
+    height: 11px;
+    margin: 9px 10px 0;
+}
+.cont-right .input-pwd i {
+    background-position: -129px -101px;
+}
+.input-btn {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 7px 20px 6px;
+    font-size: 14px;
+    font-weight: 700;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+    letter-spacing: .1em;
+    text-align: center;
+    text-decoration: none;
+    border-width: 0 0 1px;
+    border-style: solid;
+    background-repeat: repeat-x;
+    border-radius: 2px;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    width: 287px;
+    color: #fff;
+    background-color: #0e90d2;
+    border-color: #0e90d2;
+}
