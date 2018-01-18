@@ -227,7 +227,7 @@ class GrabTicket():
         if not self.get_left_ticket_log(_d, _from, _to):
             return None
 
-        url = 'https://kyfw.12306.cn/otn/leftTicket/query?leftTicketDTO.train_date=' + _d + '&leftTicketDTO.from_station=' \
+        url = 'https://kyfw.12306.cn/otn/leftTicket/queryZ?leftTicketDTO.train_date=' + _d + '&leftTicketDTO.from_station=' \
               + _from + '&leftTicketDTO.to_station=' + _to + '&purpose_codes=ADULT'
 
         response = self.session.get(url,verify=False)
